@@ -1,0 +1,12 @@
+{
+  "name": "ai-text-apii",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
+  }
+}
