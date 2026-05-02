@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// health route (important for Railway)
+// health route (Railway uses this)
 app.get("/", (req, res) => {
   console.log("Health check hit");
   res.send("Server is working");
@@ -27,7 +27,7 @@ app.post("/improve-text", async (req, res) => {
     const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 2cltqZLNf0JgacP4pniL7zXn8zVneIBH",  // 🔑 your key (temp)
+        "Authorization": "Bearer 2cltqZLNf0JgacP4pniL7zXn8zVneIBH", // temp key
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -60,8 +60,8 @@ app.post("/improve-text", async (req, res) => {
   }
 });
 
-// start server
-const PORT = process.env.PORT || 3000;
+// 🔥 IMPORTANT: Railway port binding (FIXED)
+const PORT = process.env.PORT;
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
