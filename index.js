@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 app.post("/improve-text", async (req, res) => {
   const { text } = req.body;
 
+  // validation
   if (!text) {
     return res.status(400).json({ error: "Text is required" });
   }
@@ -27,7 +28,7 @@ app.post("/improve-text", async (req, res) => {
     const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
       method: "POST",
       headers: {
-       "Authorization": "izRu3IKMM3qybmIref7vNtMwoQdKa9KT"
+        "Authorization": "Bearer 2cltqZLNf0JgacP4pniL7zXn8zVneIBH",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -62,7 +63,7 @@ app.post("/improve-text", async (req, res) => {
   }
 });
 
-// start server (important for Render)
+// start server (important for cloud)
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
