@@ -1,7 +1,6 @@
 console.log("SERVER STARTING...");
 
 import express from "express";
-import fetch from "node-fetch";
 import cors from "cors";
 
 const app = express();
@@ -10,8 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// test route
+// health route (important for Railway)
 app.get("/", (req, res) => {
+  console.log("Health check hit");
   res.send("Server is working");
 });
 
@@ -19,7 +19,6 @@ app.get("/", (req, res) => {
 app.post("/improve-text", async (req, res) => {
   const { text } = req.body;
 
-  // validation
   if (!text) {
     return res.status(400).json({ error: "Text is required" });
   }
@@ -28,7 +27,7 @@ app.post("/improve-text", async (req, res) => {
     const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 2cltqZLNf0JgacP4pniL7zXn8zVneIBH",
+        "Authorization": "Bearer 2cltqZLNf0JgacP4pniL7zXn8zVneIBH",  // 🔑 your key (temp)
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -42,7 +41,6 @@ app.post("/improve-text", async (req, res) => {
       })
     });
 
-    // handle API error
     if (!response.ok) {
       const err = await response.text();
       console.error("Mistral API error:", err);
@@ -51,7 +49,6 @@ app.post("/improve-text", async (req, res) => {
 
     const data = await response.json();
 
-    // clean output
     const raw = data.choices?.[0]?.message?.content || "";
     const cleaned = raw.split("\n")[0];
 
@@ -63,7 +60,7 @@ app.post("/improve-text", async (req, res) => {
   }
 });
 
-// start server (important for cloud)
+// start server
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
